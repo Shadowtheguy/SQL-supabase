@@ -2,6 +2,7 @@ import express from "express";
 import supabase from "./supabase.js";
 
 const app = express();
+const port = 3002;
 app.use(express.json());
 
 app.get("/videogames", async (req, res) => {
@@ -86,4 +87,8 @@ app.delete("/videogames/:id", async (req, res) => {
   }
 
   return res.status(200).json({ message: "Game deleted successfully " });
+});
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });
