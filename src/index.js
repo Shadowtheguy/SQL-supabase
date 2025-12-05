@@ -14,16 +14,30 @@ app.get("/videogames", async (req, res) => {
   res.status(200).json(data);
 });
 
+app.get("/videogames/:id", async (req, res) => {
+  const { data, error } = await supabase
+    .from("Video Games")
+    .select("*")
+    .eq("id", req.params.id)
+    .single();
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  res.status(200).json(data)
+});
+
 app.post("/videogames", async (req, res) => {
-  const { name, creator, description, tags, price } = req.body
+  const { name, creator, description, tags, price } = req.body;
 
   const newGame = {
     name,
     creator,
     description,
     tags,
-    price
-  }
+    price,
+  };
 
   const { data, error } = await supabase
     .from("Video Games")
