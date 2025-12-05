@@ -25,7 +25,7 @@ app.get("/videogames/:id", async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 
-  res.status(200).json(data)
+  res.status(200).json(data);
 });
 
 app.post("/videogames", async (req, res) => {
@@ -49,4 +49,17 @@ app.post("/videogames", async (req, res) => {
   }
 
   res.status(201).json(data);
+});
+
+app.delete("/videogames/:id", async (req, res) => {
+  const { data, error } = await supabase
+    .from("Video Games")
+    .delete()
+    .eq("id", req.params.id);
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  return res.status(200).json({ message: "Game deleted successfully " });
 });
