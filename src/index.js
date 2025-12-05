@@ -51,6 +51,30 @@ app.post("/videogames", async (req, res) => {
   res.status(201).json(data);
 });
 
+app.put("/videogames/:id", async (req, res) => {
+  const { name, creator, description, tags, price } = req.body;
+
+  const updatedGame = {
+    name,
+    creator,
+    description,
+    tags,
+    price,
+  };
+
+  const { data, error } = await supabase
+    .from("Video Games")
+    .update(updatedGame)
+    .eq("id", req.params.id)
+    .select();
+
+  if (error) {
+    return res.status(500).json({ error: error.message });
+  }
+
+  return res.status(201).json(data[0]);
+});
+
 app.delete("/videogames/:id", async (req, res) => {
   const { data, error } = await supabase
     .from("Video Games")
